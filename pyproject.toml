@@ -1,0 +1,10 @@
+[project]
+name = "agentic-engineering-exercises"
+version = "0.1.0"
+description = "Exercises for the Agentic Engineering course"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv]
+python-preference = "only-managed"
