@@ -1,0 +1,5 @@
+[project]
+name = "ex-02-prompt-and-context-engineering"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = []

@@ -8,3 +8,13 @@ dependencies = []
 
 [tool.uv]
 python-preference = "only-managed"
+
+[tool.uv.workspace]
+members = [
+    "01-getting-started",
+    "02-prompt-and-context-engineering",
+    "03-customization",
+    "04-using-claude-code-responsibly",
+    "05-tools-and-capabilities",
+    "06-workflows",
+]

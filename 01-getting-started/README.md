@@ -4,7 +4,7 @@
 
 Follow these steps:
 
-1. Ensure you are in the root directory of the cloned exercises repository
+1. Ensure you are in the `01-getting-started/` directory
 1. Ask Claude Code to install the Python environment
 1. Ask Claude Code to verify that the installation worked
 

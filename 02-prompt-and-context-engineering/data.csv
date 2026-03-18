@@ -1,0 +1,17 @@
+name,department,hours,hourly_rate,date
+Alice,Engineering,8.0,75.00,2025-03-10
+Bob,Engineering,7.5,70.00,2025-03-10
+Alice,Engineering,8.5,75.00,2025-03-11
+Carol,Marketing,6.0,55.00,2025-03-10
+Dave,Marketing,7.0,55.00,2025-03-10
+Carol,Marketing,,55.00,2025-03-11
+Eve,Engineering,9.0,80.00,2025-03-10
+Frank,Sales,8.0,60.00,2025-03-10
+Grace,Sales,7.5,,2025-03-10
+Frank,Sales,8.0,60.00,2025-03-11
+Bob,Engineering,8.0,70.00,2025-03-11
+Dave,Marketing,6.5,55.00,2025-03-11
+Eve,Engineering,8.5,80.00,2025-03-11
+Grace,Sales,7.0,65.00,2025-03-11
+Alice,Engineering,7.0,75.00,2025-03-12
+Frank,Sales,8.5,60.00,2025-03-12
