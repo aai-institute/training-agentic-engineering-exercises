@@ -1,0 +1,10 @@
+{
+  "env": {
+    "UV_CACHE_DIR": ".uv-cache"
+  },
+  "permissions": {
+    "allow": [
+      "Write(.uv-cache/**)"
+    ]
+  }
+}
