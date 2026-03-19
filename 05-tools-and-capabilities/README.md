@@ -14,24 +14,19 @@ ______________________________________________________________________
 
 ## Skills
 
-**Note:** Custom slash commands have been merged into the skills system (v2.1.3). The
-`.claude/commands/` path still works as a legacy location, but `.claude/skills/` is the
-recommended path for new work. This topic covers the unified system.
-
 ### Exercise 1
 
-Give Claude Code a data processing task in two rounds:
+1. Prompt claude code to calculate the Flesch-Kincaid reading score for each chapter's
+   README.
+   [Flesch-Kincaid reading score](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
+1. Observe the tool calling details (ctrl+o).
+1. After success, /clear the context and run the same prompt again.
 
-1. **Round 1 (no script):** Ask: "Analyze all the markdown files in this project and
-   give me a summary: how many files, total line count, average lines per file, and
-   which 5 files are the longest." Watch how many tool calls Claude makes and check the
-   context impact.
+Questions:
 
-1. **Round 2 (with script):** Start a new conversation. Ask: "Write a Python script that
-   analyzes all the markdown files in this project and gives me a summary: how many
-   files, total line count, average lines per file, and which 5 files are the longest.
-   Run it and show me the results." Compare the number of tool calls and the context
-   cost to Round 1.
+- Did Claude use tools for your task? If yes, which ones?
+- Did you review the tool calling?
+- Did you observe variations in the two independent runs?
 
 **Goal:** Claude Code can write and execute scripts directly. When a task involves
 processing many files or large amounts of data, this keeps context lean because only the
@@ -41,21 +36,21 @@ individually.
 ### Exercise 2
 
 Ask Claude Code to save the prompt from the previous exercise as a skill. It should be
-called `analyze-markdown`, live in `.claude/skills/analyze-markdown/SKILL.md`, and be
+called `flesch-kincaid`, live in `.claude/skills/flesch-kincaid/SKILL.md`, and be
 manually invoked only (not auto-invoked). Review the generated SKILL.md. Check that it
 has frontmatter with `name`, `description`, and `disable-model-invocation: true`.
-Restart Claude Code and invoke it with `/analyze-markdown`.
+Restart Claude Code and invoke it with `/flesch-kincaid`.
 
 **Goal:** A skill at its simplest is a saved prompt. One command instead of typing the
 full prompt every time.
 
 ### Exercise 3
 
-Ask Claude Code to update the `analyze-markdown` skill to be auto-invocable: remove the
+Ask Claude Code to update the `flesch-kincaid` skill to be auto-invocable: remove the
 `disable-model-invocation` flag and improve the description so Claude knows when to use
-it. Restart Claude Code. Test auto-invocation by asking something like "How much
-documentation does this project have?" without mentioning the skill. Watch whether
-Claude loads it on its own.
+it. Restart Claude Code. Test auto-invocation by asking something like "How readable is
+the documentation in this project?" without mentioning the skill. Watch whether Claude
+loads it on its own.
 
 **Goal:** The shift from manual to automatic invocation. The description is what Claude
 reads at startup to decide when a skill is relevant. A good description makes the
@@ -67,7 +62,7 @@ In the previous exercises, Claude wrote a fresh Python script every time — the
 could differ between runs. Ask Claude Code to bundle a fixed script into the skill: save
 the analysis script inside the skill's directory and update the SKILL.md to always run
 that specific script instead of writing a new one. Test it: run it multiple times or
-compare with a neighbor. Everyone should get identical results.
+compare with a neighbor. The result should be reproducible.
 
 **Goal:** Bundling a script ensures reproducibility. Claude knows *how* to write Python
 scripts; what it can't guarantee is writing the *same* script twice. This is the
@@ -77,29 +72,42 @@ ______________________________________________________________________
 
 ## MCP (Model Context Protocol)
 
-- Setting up Context7 MCP -> better than using websearch + webfetch for documentation
-  (another option is comparing it to Brave Search MCP)
-- Run context to see how MCP appears.
-- Notice the typed schemas -> each MCP tool has defined parameters and descriptions.
-- Comparison to CLI Apps and discussion
+### Exercise MCP
 
-`Idea: Check if building a MCP is plausible -> It's possible`
+The key difference between an MCP server and a skill is **statefulness**. A skill runs a
+script that starts, executes, and exits — each invocation is independent. An MCP server
+is a long-lived process that persists between calls, which matters when you need to
+maintain sessions, hold open connections, or track state across multiple interactions.
 
-The hello world of an MCP server would be something like:
+1. Set up the [Context7 MCP](https://github.com/upstash/context7) in your Claude Code
+   session. Add it to `.claude/settings.local.json`:
 
-```python
-from mcp.server.fastmcp import FastMCP
+   ```json
+   {
+     "mcpServers": {
+       "context7": {
+         "command": "npx",
+         "args": ["-y", "@upstash/context7-mcp@latest"]
+       }
+     }
+   }
+   ```
 
-mcp = FastMCP("my-server")
+1. Restart Claude Code. Run `/mcp` to verify Context7 appears in the tool list.
 
-@mcp.tool()
-def greet(name: str) -> str:
-    """Greet someone by name."""
-    return f"Hello, {name}!"
+1. Ask Claude Code: "Using Context7, look up how to configure hooks in Claude Code."
+   Observe how Claude uses the MCP tool — note the typed parameters and structured
+   response.
 
-if __name__ == "__main__":
-    mcp.run()
-```
+1. Now ask a follow-up question that builds on the previous answer, e.g., "Show me an
+   example for the stop event." Observe whether Context7 maintains session context
+   across calls.
+
+**Questions:**
+
+- Could you replicate this with a skill that wraps a CLI tool? What would you lose?
+- When does a long-lived, stateful server justify the extra setup compared to a simple
+  skill?
 
 ______________________________________________________________________
 
@@ -107,20 +115,19 @@ ______________________________________________________________________
 
 ### Exercise 5
 
-With the help of Claude Code, define a custom read-only subagent for codebase
-exploration:
+With the help of Claude Code, define a custom read-only subagent that gives feedback on
+the quality of the documentation and improvement suggestions (flesch-kincaid agent):
 
 1. Ask Claude Code to create a subagent in `.claude/agents/` that can only read and
    search the codebase (no file edits, no Bash).
 1. Review the generated markdown file — check the `tools` list, `description`, and
    `prompt`.
 1. Note your current context usage.
-1. Test it: ask Claude Code to use the explorer agent to answer a broad question that
-   requires reading many files (e.g., *"Which files import from the utils module, and
-   what do they use from it?"*).
-1. Check the context usage again. The subagent may have read dozens of files, but your
-   main conversation only received the summary result. Compare this to what would have
-   happened if Claude had explored the codebase directly in the main conversation.
+1. Test it: ask Claude Code to use the flesch-kincaid agent to answer a broad question
+   that requires assesing the readability of the markdown files in the project.
+1. Check the context usage again. The subagent may have several files, but your main
+   conversation only received the summary result. Think about what would have happened
+   if Claude had explored the codebase directly in the main conversation.
 1. Verify tool restriction: ask the subagent to make a small edit to a file. It should
    not be able to.
 
