@@ -14,24 +14,28 @@ ______________________________________________________________________
 
 ## Skills
 
-**Note:** Custom slash commands have been merged into the skills system (v2.1.3). The
-`.claude/commands/` path still works as a legacy location, but `.claude/skills/` is the
-recommended path for new work. This topic covers the unified system.
-
 ### Exercise 1
 
-Give Claude Code a data processing task in two rounds:
+TODO: What about switching to a more complex example, create a bar chart of word counts
+per file or calculate the
+[Flesch-Kincaid reading score](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
+for each chapter's README. Will trigger a python execution more consistently.
 
-1. **Round 1 (no script):** Ask: "Analyze all the markdown files in this project and
-   give me a summary: how many files, total line count, average lines per file, and
-   which 5 files are the longest." Watch how many tool calls Claude makes and check the
-   context impact.
+1. Prompt claude code to calculate the Flesch-Kincaid reading score for each chapter's
+   README.
+1. Observe the tool calling details (ctrl+o).
+1. After success, /clear the context and run the same prompt again.
 
-1. **Round 2 (with script):** Start a new conversation. Ask: "Write a Python script that
-   analyzes all the markdown files in this project and gives me a summary: how many
-   files, total line count, average lines per file, and which 5 files are the longest.
-   Run it and show me the results." Compare the number of tool calls and the context
-   cost to Round 1.
+Questions:
+
+- Did Claude use tools for your task? If yes, which ones?
+- Did you review the tool calling?
+- Did you observe variations in the two independent runs?
+
+Ask Claude Code: "Write a Python script that analyzes all the markdown files in this
+project and gives me a summary: how many files, total line count, average lines per
+file, and which 5 files are the longest. Run it and show me the results." Watch how many
+tool calls Claude makes and check the context cost.
 
 **Goal:** Claude Code can write and execute scripts directly. When a task involves
 processing many files or large amounts of data, this keeps context lean because only the
@@ -77,35 +81,53 @@ ______________________________________________________________________
 
 ## MCP (Model Context Protocol)
 
-- Setting up Context7 MCP -> better than using websearch + webfetch for documentation
-  (another option is comparing it to Brave Search MCP)
-- Run context to see how MCP appears.
-- Notice the typed schemas -> each MCP tool has defined parameters and descriptions.
-- Comparison to CLI Apps and discussion
+### Exercise MCP
 
-`Idea: Check if building a MCP is plausible -> It's possible`
+The key difference between an MCP server and a skill is **statefulness**. A skill runs a
+script that starts, executes, and exits — each invocation is independent. An MCP server
+is a long-lived process that persists between calls, which matters when you need to
+maintain sessions, hold open connections, or track state across multiple interactions.
 
-The hello world of an MCP server would be something like:
+1. Set up the [Context7 MCP](https://github.com/upstash/context7) in your Claude Code
+   session. Add it to `.claude/settings.local.json`:
 
-```python
-from mcp.server.fastmcp import FastMCP
+   ```json
+   {
+     "mcpServers": {
+       "context7": {
+         "command": "npx",
+         "args": ["-y", "@upstash/context7-mcp@latest"]
+       }
+     }
+   }
+   ```
 
-mcp = FastMCP("my-server")
+1. Restart Claude Code. Run `/mcp` to verify Context7 appears in the tool list.
 
-@mcp.tool()
-def greet(name: str) -> str:
-    """Greet someone by name."""
-    return f"Hello, {name}!"
+1. Ask Claude Code: "Using Context7, look up how to configure hooks in Claude Code."
+   Observe how Claude uses the MCP tool — note the typed parameters and structured
+   response.
 
-if __name__ == "__main__":
-    mcp.run()
-```
+1. Now ask a follow-up question that builds on the previous answer, e.g., "Show me an
+   example for the stop event." Observe whether Context7 maintains session context
+   across calls.
+
+**Questions:**
+
+- Could you replicate this with a skill that wraps a CLI tool? What would you lose?
+- When does a long-lived, stateful server justify the extra setup compared to a simple
+  skill?
 
 ______________________________________________________________________
 
 ## Subagents
 
 ### Exercise 5
+
+TODO: There could be confusion with the built-in Explore subagent here. If we decide to
+go with the readability score index, we could build a readability-improver subagent.
+Same it can only read, but can give suggestions on how to improve and homogenize reading
+level.
 
 With the help of Claude Code, define a custom read-only subagent for codebase
 exploration:
