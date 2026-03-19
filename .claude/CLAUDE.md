@@ -1,0 +1,2 @@
+- Use uv for Python environment management and dependency installation
+- Run Python commands with uv run

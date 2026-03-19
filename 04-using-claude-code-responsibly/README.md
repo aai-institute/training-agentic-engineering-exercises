@@ -1,6 +1,4 @@
-# 4. Using Claude Code Responsibly
-
-**Exercises:**
+# Exercises: Using Claude Code Responsibly
 
 **Before you start:** To avoid interference from global permission rules, start Claude
 Code with restricted setting sources for these exercises:
