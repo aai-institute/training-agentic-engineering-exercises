@@ -36,3 +36,19 @@ smth like emojis in ChatGPT).**
 
 Build a proper `.claude/CLAUDE.md` for your project and apply best practices (as taught
 in slides). `/init`. Commit it?
+
+## Exercise 4: Create a Status Line
+
+> **Note:** If you already have a status line configured, skip this exercise.
+
+Set up a status line so you always see your context usage. The `/statusline` command
+accepts a natural language description of what you want. For example:
+
+```
+/statusline show context percentage
+```
+
+**Questions:**
+
+- How could continuous visibility into context help you during longer sessions?
+- Are there other things you would include in the status?

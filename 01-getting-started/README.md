@@ -1,5 +1,10 @@
 # Exercises: Getting Started
 
+**Duration: 20 minutes**
+
+For each exercise, first work through the steps, then reflect on the questions on your
+own or discuss them with your neighbor.
+
 ## Exercise 1: Setup Verification
 
 Follow these steps:
@@ -38,10 +43,11 @@ it to commit the changes if you are satisfied.
 
 - Did you have to intervene at any point, or did the agent handle everything?
 - Did you specify the font and color, or did Claude "decide" this?
+- Compare your page with your neighbor's. Is Claude's output deterministic?
 - Did you feel in control?
 - Did you review the code before committing?
 
-## Exercise 4: AI-Assisted Understanding
+## Bonus: Exercise 4: AI-Assisted Understanding
 
 Use Claude Code to understand Python's built-in `TopologicalSorter` class from the
 `graphlib` module, using ascending levels of detail. Go through the following three
@@ -61,7 +67,14 @@ understand the problem at that level; then continue to the next. Ask for:
 
   Example: "If I had 10,000 tasks, what should I worry about (performance/memory)?"
 
+> **Note:** `TopologicalSorter` is part of the standard library. Claude likely knows it
+> from training data and may answer from memory rather than actually reading the source
+> code.
+
 **Questions:**
 
 - Did you learn something new?
 - Did Claude Code's explanations feel accurate? How would you verify?
+- Did Claude actually read the source code, or did it answer from memory? How can you
+  tell?
+- Could you make Claude look at the actual implementation? How?
