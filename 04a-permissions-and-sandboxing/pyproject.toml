@@ -1,5 +1,5 @@
 [project]
-name = "ex-04-using-claude-code-responsibly"
+name = "ex-04a-permissions-and-sandboxing"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = []
