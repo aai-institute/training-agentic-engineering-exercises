@@ -2,8 +2,8 @@
 
 **Duration: 20 minutes**
 
-For each exercise, first work through the steps, then reflect on the questions on your
-own or discuss them with your neighbor.
+For each exercise, first work through the steps, then work through the reflections on
+your own or discuss them with your neighbor.
 
 ## Exercise 1: Setup Verification
 
@@ -13,7 +13,7 @@ Follow these steps:
 1. Ask Claude Code to install the Python environment
 1. Ask Claude Code to verify that the installation worked
 
-**Questions:**
+**Reflections:**
 
 - Did Claude Code complete the task without errors?
 - What tools did Claude Code use to accomplish this?
@@ -27,7 +27,7 @@ Follow these steps:
 1. Ask Claude Code to execute the Python script.
 1. Tell it to commit the changes.
 
-**Questions:**
+**Reflections:**
 
 - Where did Claude Code put the file?
 - Would you have written the commit message in the same way?
@@ -39,7 +39,7 @@ page. The page should display "Hello World!" and dynamically move the text away 
 mouse cursor approaches it. Ask it to run and display the page locally. Afterwards, tell
 it to commit the changes if you are satisfied.
 
-**Questions:**
+**Reflections:**
 
 - Did you have to intervene at any point, or did the agent handle everything?
 - Did you specify the font and color, or did Claude "decide" this?
@@ -71,7 +71,7 @@ understand the problem at that level; then continue to the next. Ask for:
 > from training data and may answer from memory rather than actually reading the source
 > code.
 
-**Questions:**
+**Reflections:**
 
 - Did you learn something new?
 - Did Claude Code's explanations feel accurate? How would you verify?

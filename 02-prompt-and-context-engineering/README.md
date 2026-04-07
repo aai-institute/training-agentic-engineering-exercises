@@ -9,7 +9,7 @@ Ask Claude Code the following questions in **two separate conversations**:
 - What does the function `read_csv` in summarize_csv.py do?
 - What does the function `read_csv` in @summarize_csv.py do?
 
-**Questions:**
+**Reflections:**
 
 - How did the tool calls differ between the two conversations?
 - In your own words: what does @ do, and when might you want to use it?
@@ -20,7 +20,7 @@ Continue one of the sessions of the previous exercise.
 
 Run `/context` and look at the output.
 
-**Questions:**
+**Reflections:**
 
 - What information is shown and why is this useful to know?
 - What are the biggest contributors to your current context usage?
@@ -67,7 +67,7 @@ no external dependencies... time to undo.
 Run `/rewind` and select the message where you asked for the refactoring. Choose
 "Restore code and conversation".
 
-**Questions:**
+**Reflections:**
 
 - Is the file back to the original?
 - Is your free space back to before the refactoring (validate using `/context`)?
@@ -85,7 +85,7 @@ pandas version.
 1. You now want to pick up where you left off. Open Claude Code again and resume the
    session.
 
-**Questions:**
+**Reflections:**
 
 - When would you want to resume an old session?
 
@@ -102,7 +102,7 @@ affects your context usage.
 > **Note:** you can pass focus instructions to compact, e.g. "`/compact` focus on the
 > performance improvement ideas".
 
-**Questions:**
+**Reflections:**
 
 - How did your context usage change?
 - In your own words: What does compact do?
@@ -114,6 +114,6 @@ affects your context usage.
 You don't care anymore about the specific messages from Friday and want to free up
 context completely. Run `/clear` and check how this affects your context usage.
 
-**Questions:**
+**Reflections:**
 
 - When would you use `/clear` instead of `/compact`?

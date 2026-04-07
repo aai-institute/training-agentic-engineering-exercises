@@ -40,7 +40,7 @@ Try these three operations in your session, one at a time:
 1. Ask Claude Code to create a file `hello.py` that prints "Hello".
 1. Ask Claude Code to run `uv run python hello.py`.
 
-**Questions:**
+**Reflections:**
 
 - Which of the three operations required your explicit approval?
 - Claude Code groups tools into three categories with different approval behavior. Can
@@ -61,7 +61,7 @@ Try these three operations in your session, one at a time:
 1. Exit the dialog with `Esc`
 1. Ask Claude Code to read `./data/sales_report.csv` and summarize its contents again.
 
-**Questions:**
+**Reflections:**
 
 - What happened when Claude tried to read the denied path?
 - Open `04a-permissions-and-sandboxing/.claude/settings.local.json` — where is the deny
@@ -74,7 +74,7 @@ Try these three operations in your session, one at a time:
 1. Exit the dialog with `Esc`
 1. Ask Claude Code to run `uv run python hello.py`.
 
-**Questions:**
+**Reflections:**
 
 - Did Claude ask for permission this time?
 - Does the rule `Bash(uv run python *)` also match `uv run hello.py` (short uv syntax to
@@ -89,7 +89,7 @@ Try these three operations in your session, one at a time:
 1. Start a new session with `/clear`.
 1. Ask Claude Code to run `uv run python hello.py`.
 
-**Questions:**
+**Reflections:**
 
 - What happened? You now have both an Allow *and* a Deny rule for the same pattern.
 - What does Claude answer, if you ask about the precedence of permission rules?
@@ -105,7 +105,7 @@ You can cycle through them via `shift+tab`.
 1. Now press `shift+tab` until you see `plan mode on`
 1. Ask Claude to modify `hello_world.py` to print "Hello Claude!"
 
-**Questions:**
+**Reflections:**
 
 - What changed in comparison to the default mode?
 - What does Claude answer, if you ask when and why to use `Plan` or `Accept Edits` mode?
@@ -125,7 +125,7 @@ datasets), you need strategies beyond permissions.
 1. Now ask Claude Code to run `uv run read_csv.py` and show you the result in a table
    format.
 
-**Questions:**
+**Reflections:**
 
 - Did you see the data?
 - If yes, why did this happen despite the **Deny** rule to read the data?
@@ -144,7 +144,7 @@ datasets), you need strategies beyond permissions.
    `Strict sandbox mode`.
 1. Again, prompt Claude in the following way "Run `uv run read_csv.py` without sandbox."
 
-**Questions:**
+**Reflections:**
 
 - In default and in sandbox mode you have a **Deny** rule now. What is the difference?
 - What changes when you run in `Strict sandbox mode` compared to
