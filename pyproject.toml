@@ -14,7 +14,7 @@ members = [
     "01-getting-started",
     "02-prompt-and-context-engineering",
     "03-customization",
-    "04-using-claude-code-responsibly",
+    "04a-permissions-and-sandboxing",
     "05-tools-and-capabilities",
     "06-workflows",
 ]
