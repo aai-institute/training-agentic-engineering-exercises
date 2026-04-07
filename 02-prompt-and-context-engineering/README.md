@@ -16,10 +16,7 @@ Ask Claude Code the following questions in **two separate conversations**:
 
 ## Exercise 2: Context Visibility
 
-Continue one of the sessions of the previous exercise and work through the following
-tasks:
-
-### 2.1 Inspect Context Usage
+Continue one of the sessions of the previous exercise.
 
 Run `/context` and look at the output.
 
@@ -28,17 +25,11 @@ Run `/context` and look at the output.
 - What information is shown and why is this useful to know?
 - What are the biggest contributors to your current context usage?
 
-### 2.2 Create a Status Line
-
-Create a status line for Claude Code that includes at least the context window and token
-usage. Claude Code helps you with the set-up when you run `/statusline`.
-
-**Questions:**
-
-- How could continuous visibility into context help you during longer sessions?
-- Are there other things you would include in the status?
-
 ## Exercise 3: Context Management Commands
+
+> **Important:** Work through the sub-exercises in order. Do not rewind or clear your
+> session early, as later exercises build on the context you accumulate here. If you
+> accidentally clear everything, re-do exercises 3.1 and 3.2 to rebuild context.
 
 Continue with the previous session and work through the following tasks. Have an eye on
 your status line while doing so.
@@ -98,11 +89,15 @@ pandas version.
 
 - When would you want to resume an old session?
 
-### 3.5 Compact
+### 3.5 Summarize
 
-You realize that your context window is filling up, but want to continue working in the
-session with a compactified context. Run `/compact` and check how this affects your
-context usage.
+You want to capture the key points of your session before moving on. Ask Claude to
+summarize the conversation into a `session-summary.md` file.
+
+### 3.6 Compact
+
+Claude can also summarize conversations automatically. Run `/compact` and check how this
+affects your context usage.
 
 > **Note:** you can pass focus instructions to compact, e.g. "`/compact` focus on the
 > performance improvement ideas".
@@ -111,11 +106,10 @@ context usage.
 
 - How did your context usage change?
 - In your own words: What does compact do?
-- What would you do if you want to compactify a conversation but you want more control
-  over the process?
-- Could you use compactification for stopping and effictively resuming sessions?
+- Where do you have more control: writing a summary yourself (3.5) or using `/compact`?
+  What are the trade-offs?
 
-### 3.6 Clear
+### 3.7 Clear
 
 You don't care anymore about the specific messages from Friday and want to free up
 context completely. Run `/clear` and check how this affects your context usage.
@@ -123,10 +117,3 @@ context completely. Run `/clear` and check how this affects your context usage.
 **Questions:**
 
 - When would you use `/clear` instead of `/compact`?
-
-### 3.7 To clear or not to clear
-
-Discuss:
-
-If your conversation drifts into a wrong direction. Do you try to "save" the
-conversation/context or do you clear quickly?

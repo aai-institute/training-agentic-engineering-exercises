@@ -1,14 +1,28 @@
-# Exercises: Using Claude Code Responsibly
+# Exercises: Permissions and Sandboxing
 
-**Before you start:** To avoid interference from global permission rules, start Claude
-Code with restricted setting sources for these exercises:
+> **⚠️ IMPORTANT: `cd` into `04a-permissions-and-sandboxing/` before starting Claude
+> Code.** The exercises depend on project-level settings and data files in this
+> directory. To avoid interference from global permission rules, start Claude Code with
+> restricted setting sources:
 
 ```bash
+cd 04a-permissions-and-sandboxing
 claude --setting-sources project,local
 ```
 
 This ignores your global `~/.claude/settings.json` and `~/.claude/settings.local.json`,
 so only project-level settings apply.
+
+## Exercise 0: Verification
+
+1. Run `/status`
+1. The entry `cwd` should contain
+   `training-agentic-engineering-exercises/04a-permissions-and-sandboxing`
+1. `Setting sources` should only be `Project local settings`, if you see
+   `User settings`, you have to close the session and start a new one with
+   ```bash
+   claude --setting-sources project,local
+   ```
 
 ## Exercise 1: The Permission System
 
@@ -16,8 +30,7 @@ This exercise walks you through the core mechanics of Claude Code's permission s
 You'll discover how tool approvals work, how to add rules, and where the system's limits
 are.
 
-**Setup:** Step to the subdirectory `exercises/04-using-claude-code-responsibly/`, open
-a terminal in the directory and start a fresh Claude Code session.
+> **⚠️ Make sure your working directory is `04a-permissions-and-sandboxing/`.**
 
 ### 1.1 Observe Default Permission Behavior
 
@@ -51,8 +64,8 @@ Try these three operations in your session, one at a time:
 **Questions:**
 
 - What happened when Claude tried to read the denied path?
-- Open `exercises/04-using-claude-code-responsibly/.claude/settings.local.json` — where
-  is the deny rule stored? What does the structure look like?
+- Open `04a-permissions-and-sandboxing/.claude/settings.local.json` — where is the deny
+  rule stored? What does the structure look like?
 
 ### 1.3 Allow Rules and Wildcards
 
@@ -71,8 +84,8 @@ Try these three operations in your session, one at a time:
 
 1. Via `/permissions`, add a **Deny** rule: `Bash(uv run python *)` (choose Project
    Settings (local)).
-1. Inspect `exercises/04-using-claude-code-responsibly/.claude/settings.local.json` to
-   verify you have an **Allow** and **Deny** rule active for `Bash(uv run python *)`.
+1. Inspect `04a-permissions-and-sandboxing/.claude/settings.local.json` to verify you
+   have an **Allow** and **Deny** rule active for `Bash(uv run python *)`.
 1. Start a new session with `/clear`.
 1. Ask Claude Code to run `uv run python hello.py`.
 
@@ -98,6 +111,8 @@ You can cycle through them via `shift+tab`.
 - What does Claude answer, if you ask when and why to use `Plan` or `Accept Edits` mode?
 
 ## Exercise 2: Working with Sensitive Data
+
+> **⚠️ Make sure your working directory is `04a-permissions-and-sandboxing/`.**
 
 When you work with genuinely sensitive data (personal records, credentials, proprietary
 datasets), you need strategies beyond permissions.
@@ -135,29 +150,3 @@ datasets), you need strategies beyond permissions.
 - What changes when you run in `Strict sandbox mode` compared to
   `Allow unsandboxed fallback`?
 - Do you see any downsides of the `Strict sandbox mode`?
-
-### 2.3 (Bonus/Optional) Docker Sandbox
-
-Requires:
-
-- Docker Desktop 4.58 or later
-
-Be aware, this will take some setup time, due to downloading additional docker layers.
-The exercise is completely optional, feel free to skip it.
-
-1. Open a new terminal or close the running Claude session. Make sure your current
-   working directory is `exercises/04-using-claude-code-responsibly`.
-1. Depending on which billing model you use (API-billing vs. subscription), do the
-   following:
-   - For API-billing, set the environment variable `ANTHROPIC_API_KEY` with your key and
-     run `ANTHROPIC_API_KEY=sk-ant-api03-xxxxx docker sandbox run claude`
-   - For subscription, run `docker sandbox run claude` and within the session run
-     `/login` (see also
-     [login in the sandbox](https://docs.docker.com/ai/sandboxes/get-started/#run-your-first-sandbox)).
-1. Follow the dialog for setting appearance configuration.
-1. Ask Claude to give you a summary of `../03-customization/README.md`
-
-**Questions:**
-
-- Did you get a summary? If not what kind of message did claude give you?
-- How does the docker sandbox differ from the claude built-in sandbox?

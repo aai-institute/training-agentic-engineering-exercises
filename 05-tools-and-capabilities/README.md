@@ -135,24 +135,3 @@ the quality of the documentation and improvement suggestions (flesch-kincaid age
 isolation (the subagent does heavy exploration in its own context and returns only a
 compact result) and safety (restricting which tools a subagent can access ensures it
 can't modify anything unintended).
-
-______________________________________________________________________
-
-## Hooks
-
-### Exercise 6
-
-Create a notification hook that alerts you when Claude Code needs your input or has
-finished a task:
-
-1. Ask Claude Code: *"I want to set up a hook that notifies me whenever you need my
-   input or finish a task. Can you help me create one?"*
-1. Let Claude Code guide you. It should ask about your preferences (sound, visual
-   banner, both?), detect your operating system, and create the hook accordingly.
-1. Let Claude Code test the hook to verify it works correctly.
-1. Once it works, give Claude Code a longer task and step away. See if you get notified
-   in practice.
-
-**Goal:** Experience hooks as automated lifecycle actions that run without your
-intervention. Notice that hooks are configured in settings files, not in the `.claude/`
-directory, and that Claude Code itself is a great tool for creating them.
