@@ -10,7 +10,7 @@
 1. Look at the generated code. Did Claude follow the instruction?
 1. Run `/context`. Can you find where the CLAUDE.md instruction appears in the context?
 
-**Questions:**
+**Reflections:**
 
 - How many tokens does this one-line instruction cost per conversation?
 - What would happen if you tell Claude to never use emojis in code in another
@@ -35,7 +35,7 @@ task:
 > **Note (macOS):** Focus modes (Work, Do Not Disturb) suppress notifications. If the
 > hook seems broken, check your Focus mode first.
 
-**Questions:**
+**Reflections:**
 
 - What are the security implications of cloning a repo that has hooks pre-configured?
 
@@ -54,7 +54,7 @@ process. For example:
 /statusline show context percentage
 ```
 
-**Questions:**
+**Reflections:**
 
 - How could continuous visibility into context help you during longer sessions?
 - Are there other things you would include in the status line?

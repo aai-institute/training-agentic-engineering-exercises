@@ -1,6 +1,6 @@
 # 6. Workflows
 
-**Topics, Questions and Takeaways:**
+**Topics, Reflections and Takeaways:**
 
 <!-- TODO: Content to be added -->
 

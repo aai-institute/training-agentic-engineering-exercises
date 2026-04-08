@@ -6,7 +6,7 @@ built-in tools, external integrations via the Model Context Protocol (MCP), reus
 hooks (lightweight automation around events). The focus is on what each mechanism is
 for, how they differ, and what tradeoffs they introduce.
 
-**Topics, Questions and Takeaways:**
+**Topics, Reflections and Takeaways:**
 
 `(Keywords: Built-in tools, CLI tools via Bash, Skills, MCPs, Subagents, Hooks, Plug-ins)`
 
@@ -22,7 +22,7 @@ ______________________________________________________________________
 1. Observe the tool calling details (ctrl+o).
 1. After success, /clear the context and run the same prompt again.
 
-Questions:
+Reflections:
 
 - Did Claude use tools for your task? If yes, which ones?
 - Did you review the tool calling?
@@ -103,7 +103,7 @@ maintain sessions, hold open connections, or track state across multiple interac
    example for the stop event." Observe whether Context7 maintains session context
    across calls.
 
-**Questions:**
+**Reflections:**
 
 - Could you replicate this with a skill that wraps a CLI tool? What would you lose?
 - When does a long-lived, stateful server justify the extra setup compared to a simple
