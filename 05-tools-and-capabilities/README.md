@@ -1,137 +1,94 @@
-# 5. Tools and Capabilities
+# Exericse: Tools and Capabilities
 
-**Description:** This section surveys the main ways Claude Code can act and be extended:
-built-in tools, external integrations via the Model Context Protocol (MCP), reusable
-"skills" (codified instructions/patterns), subagents (role/task decomposition), and
-hooks (lightweight automation around events). The focus is on what each mechanism is
-for, how they differ, and what tradeoffs they introduce.
+## Exercise 1: Calculating reading-ease scores
 
-**Topics, Reflections and Takeaways:**
+The Flesch-Kincaid readability tests indicate how easy an English text is to understand,
+and are used to evaluate technical documentation. In this exercise, we will use this
+methodology to evaluate the reading-ease of our exercise instructions.
 
-`(Keywords: Built-in tools, CLI tools via Bash, Skills, MCPs, Subagents, Hooks, Plug-ins)`
-
-______________________________________________________________________
-
-## Skills
-
-### Exercise 1
-
-1. Prompt claude code to calculate the Flesch-Kincaid reading score for each chapter's
-   README.
-   [Flesch-Kincaid reading score](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests)
-1. Observe the tool calling details (ctrl+o).
-1. After success, /clear the context and run the same prompt again.
-
-Reflections:
-
-- Did Claude use tools for your task? If yes, which ones?
-- Did you review the tool calling?
-- Did you observe variations in the two independent runs?
-
-**Goal:** Claude Code can write and execute scripts directly. When a task involves
-processing many files or large amounts of data, this keeps context lean because only the
-compact result enters the conversation, instead of the content of every file
-individually.
-
-### Exercise 2
-
-Ask Claude Code to save the prompt from the previous exercise as a skill. It should be
-called `flesch-kincaid`, live in `.claude/skills/flesch-kincaid/SKILL.md`, and be
-manually invoked only (not auto-invoked). Review the generated SKILL.md. Check that it
-has frontmatter with `name`, `description`, and `disable-model-invocation: true`.
-Restart Claude Code and invoke it with `/flesch-kincaid`.
-
-**Goal:** A skill at its simplest is a saved prompt. One command instead of typing the
-full prompt every time.
-
-### Exercise 3
-
-Ask Claude Code to update the `flesch-kincaid` skill to be auto-invocable: remove the
-`disable-model-invocation` flag and improve the description so Claude knows when to use
-it. Restart Claude Code. Test auto-invocation by asking something like "How readable is
-the documentation in this project?" without mentioning the skill. Watch whether Claude
-loads it on its own.
-
-**Goal:** The shift from manual to automatic invocation. The description is what Claude
-reads at startup to decide when a skill is relevant. A good description makes the
-difference.
-
-### Exercise 4
-
-In the previous exercises, Claude wrote a fresh Python script every time — the analysis
-could differ between runs. Ask Claude Code to bundle a fixed script into the skill: save
-the analysis script inside the skill's directory and update the SKILL.md to always run
-that specific script instead of writing a new one. Test it: run it multiple times or
-compare with a neighbor. The result should be reproducible.
-
-**Goal:** Bundling a script ensures reproducibility. Claude knows *how* to write Python
-scripts; what it can't guarantee is writing the *same* script twice. This is the
-difference between "Claude can do this" and "Claude does this the same way every time."
-
-______________________________________________________________________
-
-## MCP (Model Context Protocol)
-
-### Exercise MCP
-
-The key difference between an MCP server and a skill is **statefulness**. A skill runs a
-script that starts, executes, and exits — each invocation is independent. An MCP server
-is a long-lived process that persists between calls, which matters when you need to
-maintain sessions, hold open connections, or track state across multiple interactions.
-
-1. Set up the [Context7 MCP](https://github.com/upstash/context7) in your Claude Code
-   session. Add it to `.claude/settings.local.json`:
-
-   ```json
-   {
-     "mcpServers": {
-       "context7": {
-         "command": "npx",
-         "args": ["-y", "@upstash/context7-mcp@latest"]
-       }
-     }
-   }
-   ```
-
-1. Restart Claude Code. Run `/mcp` to verify Context7 appears in the tool list.
-
-1. Ask Claude Code: "Using Context7, look up how to configure hooks in Claude Code."
-   Observe how Claude uses the MCP tool — note the typed parameters and structured
-   response.
-
-1. Now ask a follow-up question that builds on the previous answer, e.g., "Show me an
-   example for the stop event." Observe whether Context7 maintains session context
-   across calls.
+1. Ensure you are in the `05-tools-and-capabilities/` directory.
+1. Prompt Claude Code to calculate the Flesch-Kincaid reading-ease score this chapters
+   `README.md`. Carefully monitor what Claude Code does. (*For background on the
+   Flesch-Kincaid readability test consider its
+   [Wikipedia entry](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests).*)
+1. Tell Claude to write down the score in a text file using the schema
+   `file_path: score`.
+1. Clear the context, then run the same prompt again, but this time calculate the score
+   of the `README.md` file inside the `03-customization` directory.
+1. Save the score to the text file from above.
+1. Given the calculated scores, ask Claude which README file is easier to read.
 
 **Reflections:**
 
-- Could you replicate this with a skill that wraps a CLI tool? What would you lose?
-- When does a long-lived, stateful server justify the extra setup compared to a simple
-  skill?
+- Did Claude create helper scripts or similar artifacts to solve the problem?
+- To compare the two scores we need to ensure that they have been calculated using the
+  same method.
+  1. Can we do this here?
+  1. Does your answer change if we wouldn't have cleared the context?
+- What could we do to increase reproducibility between runs?
 
-______________________________________________________________________
+## Exercise 2: Writing your first skill
 
-## Subagents
+Continue in the session from Exercise 1.
 
-### Exercise 5
+### 2.1 The interview
 
-With the help of Claude Code, define a custom read-only subagent that gives feedback on
-the quality of the documentation and improvement suggestions (flesch-kincaid agent):
+Re-read the slide "Writing Your First Skill". The following requirements are the
+*"intent"*. Given those, let Claude Code interview you (maximum 3 questions; one at a
+time). You don't need to test the skill here, we will do that in Exercise 2.2.
 
-1. Ask Claude Code to create a subagent in `.claude/agents/` that can only read and
-   search the codebase (no file edits, no Bash).
-1. Review the generated markdown file — check the `tools` list, `description`, and
-   `prompt`.
-1. Note your current context usage.
-1. Test it: ask Claude Code to use the flesch-kincaid agent to answer a broad question
-   that requires assesing the readability of the markdown files in the project.
-1. Check the context usage again. The subagent may have several files, but your main
-   conversation only received the summary result. Think about what would have happened
-   if Claude had explored the codebase directly in the main conversation.
-1. Verify tool restriction: ask the subagent to make a small edit to a file. It should
-   not be able to.
+- The skill should be called `flesch-kincaid`
+- You want the skill to only work for specific markdown files like so:
+  ```console
+  /flesch-kincaid ../03-customization/README.md
+  ```
+- You want a script that deterministically computes the reading-ease score for a
+  markdown file, and that the skill always uses it.
+- You want the output of the skill to be
+  ```markdown
+  The Flesch-Kincaid reading-ease score for {path/to/markdown-file} is {score}.
+  ```
+- The skill should live in the `05-tools-and-capabilities/.claude/` folder.
 
-**Goal:** Understand subagents as scoped delegation that solves two problems: context
-isolation (the subagent does heavy exploration in its own context and returns only a
-compact result) and safety (restricting which tools a subagent can access ensures it
-can't modify anything unintended).
+**Reflections:**
+
+- Did the interview uncover edge cases that were not covered by the requirements?
+
+### 2.2 The first draft
+
+Continue in the session from Exercise 2.1.
+
+1. Now ask Claude Code to write a skill given the result of the interview. Continue the
+   conversation until you have a first draft of the skill.
+1. Close the session and start a new one (this is required so that the skill is loaded).
+1. Test the skill by running it on the `README.md` file of this chapter:
+   ```console
+   /flesch-kincaid README.md
+   ```
+1. Compare the skill-generated score to the persisted one from Exercise 1.
+
+**Important:** If you don't have a working skill by now, you can find a solution in the
+folder `../fallback`. Use this implementation for this and the remaining exercises.
+Handle it, as if it were a third-party skill!
+
+**Reflection:**
+
+- Look at the created `SKILL.md` file. Does it fulfill the requirements listed in
+  Exercise 2.1?
+- Is the skill auto-invokable?
+
+## Exercise 3: Auto-invoking your skill
+
+While chatting with Claude you realized that it should sometimes invoke the skill
+automatically, for example, when talking about the reading-ease of a text.
+
+1. Ensure that the skill is auto-invokable (see the slide 'Manual and Auto Invocation')
+1. In a new session, prompt Claude Code with the following:
+   ```markdown
+   Compare the readability of this chapters README.md with that of ../03-customization/README.md
+   ```
+
+**Reflection:**
+
+- For this type of skill, do you want to allow auto-invocation at all?
+- What would you do if the skill wouldn't have been triggered?
