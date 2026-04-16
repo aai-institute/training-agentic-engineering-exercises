@@ -31,8 +31,7 @@ Run `/context` and look at the output.
 > session early, as later exercises build on the context you accumulate here. If you
 > accidentally clear everything, re-do exercises 3.1 and 3.2 to rebuild context.
 
-Continue with the previous session and work through the following tasks. Have an eye on
-your status line while doing so.
+Continue with the previous session and work through the following tasks.
 
 ### 3.1 Explore the Script
 
