@@ -10,15 +10,14 @@ cd 04a-permissions-and-sandboxing
 claude --setting-sources project,local
 ```
 
-This ignores your global `~/.claude/settings.json` and `~/.claude/settings.local.json`,
-so only project-level settings apply.
+This ignores your global `~/.claude/settings.json` so only project-level settings apply.
 
 ## Exercise 0: Verification
 
 1. Run `/status`
 1. The entry `cwd` should contain
    `training-agentic-engineering-exercises/04a-permissions-and-sandboxing`
-1. `Setting sources` should only be `Project local settings`, if you see
+1. `Setting sources` should only be `Shared project settings`, if you see
    `User settings`, you have to close the session and start a new one with
    ```bash
    claude --setting-sources project,local
@@ -86,7 +85,6 @@ Try these three operations in your session, one at a time:
    Settings (local)).
 1. Inspect `04a-permissions-and-sandboxing/.claude/settings.local.json` to verify you
    have an **Allow** and **Deny** rule active for `Bash(uv run python *)`.
-1. Start a new session with `/clear`.
 1. Ask Claude Code to run `uv run python hello.py`.
 
 **Reflections:**
@@ -102,6 +100,7 @@ You can cycle through them via `shift+tab`.
 1. Press `shift+tab` until you see `accept edits on`
 1. Ask Claude to modify `hello.py` to print "Hello World" instead of just "Hello".
 1. Ask Claude to rename the file to `hello_world.py`.
+1. Ask Claude to run the file using `uv run python hello_world.py`.
 1. Now press `shift+tab` until you see `plan mode on`
 1. Ask Claude to modify `hello_world.py` to print "Hello Claude!"
 
@@ -119,11 +118,11 @@ datasets), you need strategies beyond permissions.
 
 ### 2.1 The Limits of Deny Rules
 
-1. Run `/permissions` and switch to `Allow` tab. Make sure you see `Bash(uv run *.py)`.
-1. Switch to `Deny` tab and make sure you see `Read(data/*)`.
+1. Switch to the `Deny` tab and delete the rule `Bash(uv run python *)`.
+1. In the `Deny` tab, ensure you now only see the `Read(data/**)` rule.
 1. Exit the `/permissions` menu (with `ESC`).
-1. Now ask Claude Code to run `uv run read_csv.py` and show you the result in a table
-   format.
+1. Now ask Claude Code to run `uv run python read_csv.py` and show you the result in a
+   table format.
 
 **Reflections:**
 
@@ -138,11 +137,12 @@ datasets), you need strategies beyond permissions.
    `Sandbox BashTool, with regular permissions`
 1. If the sandbox dialog closed, enter it again. Verify that on the tab `Config` you see
    `Filesystem Read Restrictions: Denied: data`
-1. Ask Claude to `uv run read_csv.py`.
-1. Prompt Claude in the following way "Run `uv run read_csv.py` without sandbox."
+1. Ask Claude to `uv run python read_csv.py`.
+1. Prompt Claude in the following way "Run `uv run python read_csv.py` without sandbox."
 1. Enter the sandbox dialog again, switch to the tab `Overrides` and choose
    `Strict sandbox mode`.
-1. Again, prompt Claude in the following way "Run `uv run read_csv.py` without sandbox."
+1. Again, prompt Claude in the following way "Run `uv run python read_csv.py` without
+   sandbox."
 
 **Reflections:**
 
