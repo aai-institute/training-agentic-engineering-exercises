@@ -2,6 +2,8 @@
 
 ## Exercise 1: Experience CLAUDE.md
 
+Ensure you are in the `03-customization/` directory.
+
 1. Create the folder `.claude` in the exercise directory and populate it with
    `.claude/CLAUDE.md` containing a single instruction: "Docstrings must contain ONLY
    emoji's."
