@@ -53,6 +53,8 @@ Try these three operations in your session, one at a time:
 
 ### 1.2 Adding Deny Rules
 
+1. Run `/clear` to clear the session (otherwise, Claude might answer based on the
+   existing context).
 1. Run `/permissions` in your session. You'll see the permission management UI with
    Allow and Deny sections.
 1. Add a **Deny** rule: `Read(data/**)` — when prompted for a settings file, choose
@@ -92,6 +94,10 @@ Try these three operations in your session, one at a time:
 - What happened? You now have both an Allow *and* a Deny rule for the same pattern.
 - What does Claude answer, if you ask about the precedence of permission rules?
 
+> **⚠️ IMPORTANT:** When you are done, remove both the **Allow** and **Deny** rule for
+> `Bash(uv run python *)` via `/permissions` (select each rule, press `Enter`, confirm)
+> so the next exercises start clean.
+
 ### 1.5 Permission Modes
 
 Claude Code supports several permission modes that change the overall approval behavior.
@@ -100,14 +106,22 @@ You can cycle through them via `shift+tab`.
 1. Press `shift+tab` until you see `accept edits on`
 1. Ask Claude to modify `hello.py` to print "Hello World" instead of just "Hello".
 1. Ask Claude to rename the file to `hello_world.py`.
-1. Ask Claude to run the file using `uv run python hello_world.py`.
-1. Now press `shift+tab` until you see `plan mode on`
-1. Ask Claude to modify `hello_world.py` to print "Hello Claude!"
+1. Ask Claude to run the file using `uv run hello_world.py`. (IMPORTANT: use the
+   shorthand without `python`. The `python` form would still be blocked if you kept the
+   deny rule.)
+1. Now press `shift+tab` until you see `plan mode on`.
+1. Ask Claude to modify `hello_world.py` to print "Hello Claude!" (abort a resulting
+   question via `Esc`).
+1. Now press `shift+tab` until you see `auto mode on`.
+1. Ask Claude again to modify `hello_world.py` to print "Hello Claude,...again?"
+1. Ask Claude again to run the file using `uv run hello_world.py`.
 
 **Reflections:**
 
 - What changed in comparison to the default mode?
-- What does Claude answer, if you ask when and why to use `Plan` or `Accept Edits` mode?
+- What is the difference between `Accept Edits` and `Auto` mode?
+- What does Claude answer, if you ask when and why to use `Plan`, `Accept Edits` or
+  `Auto` mode?
 
 ## Exercise 2: Working with Sensitive Data
 
@@ -118,11 +132,15 @@ datasets), you need strategies beyond permissions.
 
 ### 2.1 The Limits of Deny Rules
 
-1. Switch to the `Deny` tab and delete the rule `Bash(uv run python *)`.
+1. Run `/clear` to clear the session (otherwise, Claude might answer based on the
+   existing context).
+1. Via `/permissions` switch to the `Deny` tab and check if the rule
+   `Bash(uv run python *)` is present. If so, delete it (select the rule with the arrow
+   keys, press `Enter` and confirm the deletion).
 1. In the `Deny` tab, ensure you now only see the `Read(data/**)` rule.
 1. Exit the `/permissions` menu (with `ESC`).
 1. Now ask Claude Code to run `uv run python read_csv.py` and show you the result in a
-   table format.
+   table format (if Claude asks for permission, select `yes`).
 
 **Reflections:**
 
@@ -150,3 +168,4 @@ datasets), you need strategies beyond permissions.
 - What changes when you run in `Strict sandbox mode` compared to
   `Allow unsandboxed fallback`?
 - Do you see any downsides of the `Strict sandbox mode`?
+- How do permission modes and sandbox interact?
